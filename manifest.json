@@ -1,7 +1,7 @@
 {
 	"id": "obsidian-metalog",
 	"name": "Metalog",
-	"version": "1.0.0",
+	"version": "0.1.0-alpha",
 	"minAppVersion": "0.15.0",
 	"description": "log document usage data",
 	"author": "TianDatong",

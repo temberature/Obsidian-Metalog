@@ -1,4 +1,4 @@
-import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
+import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting, TFile } from 'obsidian';
 
 // Remember to rename these classes and interfaces!
 
@@ -10,7 +10,7 @@ const DEFAULT_SETTINGS: MyPluginSettings = {
 	mySetting: 'default'
 }
 
-function log(e: string | number | TFile | null) {
+function log(e: TFile | null) {
 	if ((window as any)._debug) {
 		console.log(e);
 	}
@@ -25,7 +25,7 @@ export default class MyPlugin extends Plugin {
 		const app = this.app;
 		app.workspace.on('file-open', (file) => {
 			log(file);
-			if(file.extension !== 'md') {
+			if(file?.extension !== 'md') {
 				return;
 			}
 			let isExclude = false;

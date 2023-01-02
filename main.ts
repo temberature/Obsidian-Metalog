@@ -128,7 +128,7 @@ class SampleSettingTab extends PluginSettingTab {
 				.setValue(this.plugin.settings.timesViewed)
 				.onChange(async (value) => {
 					log('Secret: ' + value);
-					this.plugin.settings.timesViewed = value;
+					this.plugin.settings.timesViewed = value || DEFAULT_SETTINGS.timesViewed;
 					await this.plugin.saveSettings();
 				}));
 	}

@@ -4,13 +4,15 @@ import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Set
 
 interface MyPluginSettings {
 	mySetting: string;
+	timesViewed: string;
 }
 
 const DEFAULT_SETTINGS: MyPluginSettings = {
-	mySetting: ''
+	mySetting: '',
+	timesViewed: "timesViewed",
 }
 
-function log(e: TFile | null) {
+function log(e: any) {
 	if ((window as any)._debug) {
 		console.log(e);
 	}
@@ -20,6 +22,7 @@ export default class MyPlugin extends Plugin {
 	settings: MyPluginSettings;
 
 	async onload() {
+		const _this = this;
 		await this.loadSettings();
 
 		const app = this.app;
@@ -41,11 +44,12 @@ export default class MyPlugin extends Plugin {
 			}
 			app.fileManager.processFrontMatter(file, (frontmatter) => {
 				log(frontmatter);
-				const count = frontmatter["review count"];
+				const key = _this.settings.timesViewed;
+				const count = frontmatter[key];
 				if(!count) {
-					frontmatter["review count"] = 1;
+					frontmatter[key] = 1;
 				} else {
-					frontmatter["review count"] += 1;
+					frontmatter[key] += 1;
 				}
 				
 			})
@@ -111,8 +115,20 @@ class SampleSettingTab extends PluginSettingTab {
 				.setPlaceholder('e.g. DailyNotes, Readwise/Articles')
 				.setValue(this.plugin.settings.mySetting)
 				.onChange(async (value) => {
-					console.log('Secret: ' + value);
+					log('Secret: ' + value);
 					this.plugin.settings.mySetting = value;
+					await this.plugin.saveSettings();
+				}));
+		
+		new Setting(containerEl)
+			.setName('timesViewed name')
+			.setDesc('custom log key name')
+			.addText(text => text
+				.setPlaceholder('e.g. review count')
+				.setValue(this.plugin.settings.timesViewed)
+				.onChange(async (value) => {
+					log('Secret: ' + value);
+					this.plugin.settings.timesViewed = value;
 					await this.plugin.saveSettings();
 				}));
 	}

@@ -7,7 +7,7 @@ interface MyPluginSettings {
 }
 
 const DEFAULT_SETTINGS: MyPluginSettings = {
-	mySetting: 'default'
+	mySetting: ''
 }
 
 function log(e: TFile | null) {

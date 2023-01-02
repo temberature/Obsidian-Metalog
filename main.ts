@@ -31,7 +31,7 @@ export default class MyPlugin extends Plugin {
 			let isExclude = false;
 
 			this.settings.mySetting.split(',').forEach(folder => {
-				if(file?.path.startsWith(folder.trim())) {
+				if(folder.trim() !== '' && file?.path.startsWith(folder.trim())) {
 					isExclude = true;
 					return;
 				}
